@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="button.css" type="text/css" rel="stylesheet" />  
+<style>
+  body {background-image: url('https://www.w3schools.com/w3images/forestbridge.jpg');
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+  }
+  
+h {font-family:"Raleway", sans-serif; 
+  font-size: 40px;
+  width: 100%;
+  text-align: center;}
+h, p, table {
+    font-family: "arial", sans-serif;
+    color: white;
+    border-collapse: collapse;
+    border-color: black;
+    width: 100%;
+    text-align: center;
+    background-color: "grey";
+}
+  
+td, th {
+    border-bottom: 1px solid #888888;
+    text-align: center;
+    padding: 8px;
+}
+
+ tr:hover{opacity:.8}
+
+}
+</style>
+</head>
+<body>
+  <center><h>YOUR ENERGY INTAKE</h></center>
+  <p style="font-size:130%;">Fill in the number of hours you use each appliance.</p>
+  <form id="form">
+<table>
+  <tr>
+    <th>Appliance</th>
+    <th>Watts</th>
+    <th>Time in Hours</th>
+  </tr>
+  <tr>
+    <td>Refrigerator</td>
+    <td>540</td>
+    <td>
+      <input id="fridge" type="number">
+    </td>
+  </tr>
+  <tr>
+    <td>Dish Washer</td>
+    <td>1200</td>
+    <td>
+      <input id="dishwasher" type="number">
+    </td>
+  </tr>
+  <tr>
+    <td>Washing Machine</td>
+    <td>500</td>
+    <td><input id="wash" type="number">
+    </td>
+  </tr>
+  <tr>
+    <td>Dryer</td>
+    <td>4000</td>
+    <td><input id="dryer" type="number">
+    </td>
+  </tr>
+  <tr>
+    <td>Microwave</td>
+    <td>800</td>
+    <td><input id="Microwave" type="number">
+    </td>
+  </tr>
+  <tr>
+    <td>Air Conditioning</td>
+    <td>1000</td>
+    <td><input id="ac" type="number">
+    </td>
+  </tr>
+  <tr>
+    <td>TV</td>
+    <td>150</td>
+    <td><input id="tv" type="number">
+    </td>
+  </tr>
+  <tr>
+    <td>Blow Dryer</td>
+    <td>1000</td>
+    <td><input id="blowdryer" type="number">
+    </td>
+  </tr>
+  <tr>
+    <td>Lights</td>
+    <td>60</td>
+    <td><input id="lights" type="number">
+    </td>
+  </tr>
+  <tr>
+    <td>Laptop</td>
+    <td>120</td>
+    <td><input id="laptop" type="number">
+    </td>
+</table>
+  </form>
+  <button onclick="drawChart();">Update Graph</button>
+  <p style="font-size:300%;">Energy Costs Per Day</p>
+<div id="piechart" style="width: 700px; height: 500px; margin:0 auto;"></div>
+  <p id="total" style="font-size:300%;"></p>
+  <p id="comment" style="font-size:300%;"></p>
+<center><a href="tips.html" class="myButton">Click here for tips!</a></center>
+<br>
+<br>
+
+        
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+	var fridge=Number(document.getElementById("form").elements[0].value)*540/1000*0.1275;
+	var dishwasher=Number(document.getElementById("form").elements[1].value)*1200/1000*0.1275;
+	var wash=Number(document.getElementById("form").elements[2].value)*500/1000*0.1275;
+	var dryer=Number(document.getElementById("form").elements[3].value)*4000/1000*0.1275;
+	var microwave=Number(document.getElementById("form").elements[4].value)*800/1000*0.1275;
+	var ac=Number(document.getElementById("form").elements[5].value)*1000/1000*0.1275;
+	var tv=Number(document.getElementById("form").elements[6].value)*150/1000*0.1275;
+	var blowdryer=Number(document.getElementById("form").elements[7].value)*1000/1000*0.1275;
+	var lights=Number(document.getElementById("form").elements[8].value)*60/1000*0.1275;
+	var laptop=Number(document.getElementById("form").elements[9].value)*120/1000*0.1275;
+  var total=fridge+dishwasher+wash+dryer+microwave+ac+tv+blowdryer+lights+laptop;
+  var average=3.57
+  document.getElementById("total").innerHTML="Cost Per day = $" + parseFloat(Math.round(total * 100) / 100).toFixed(2);
+  if (total>average) {
+	document.getElementById("comment").innerHTML="The average energy cost per day in PA is $" + average + ". You should reduce your energy consumption.";
+  }
+  else {
+  	document.getElementById("comment").innerHTML="The average energy cost per day in PA is " + average + ". Your energy consumption is low, good job! Can you get lower?";
+}
+        var data = google.visualization.arrayToDataTable([
+          ['Task', 'Hours per Day'],
+          ['Refrigerator',     fridge],
+          ['Dish Washer',      dishwasher],
+	  ['Washing Machine',  wash],
+          ['Dryer',  dryer],
+	  ['Microwave',  microwave],
+	  ['Air Conditioning',  ac],
+          ['TV',  tv],
+	  ['Blow Dryer',  blowdryer],
+	  ['Lights', lights],
+          ['Laptop', laptop],
+        ]);
+
+        var options = {
+          title: ''
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+        chart.draw(data, options);
+        chart.center();
+        
+      }
+    </script>
+</body>
+</html>
